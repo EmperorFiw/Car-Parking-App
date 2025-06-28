@@ -1,12 +1,23 @@
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [CommonModule, RouterModule], // CommonModule ให้ pipe 'number', RouterModule ให้ router-outlet
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css'],
+  providers: [DecimalPipe],
 })
 export class App {
-  protected title = 'Car-Parking-App';
+  rawNumber: number = 1234.5678;
+  location: any;
+  stats: any;
+
+  constructor(private decimalPipe: DecimalPipe) {}
+
+  get formattedNumber(): string | null {
+    return this.decimalPipe.transform(this.rawNumber, '1.2-2');
+  }
 }
